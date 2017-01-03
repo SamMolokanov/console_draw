@@ -7,7 +7,7 @@ module ConsoleDraw
 
       # Abstract: Algorithm of points generation
       #   requires implementation in subclasses
-      # Returns: Array of points
+      # Returns: Array of ConsoleDraw::Canvas::Point objects
       def calculate_points!
         raise NotImplementedError
       end
