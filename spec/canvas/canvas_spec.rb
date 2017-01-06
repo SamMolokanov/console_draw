@@ -9,14 +9,14 @@ describe ConsoleDraw::Canvas::Canvas do
 
   describe '#initizalize' do
     context 'when creates map' do
-      let(:map) { subject.map }
+      let(:raster_map) { subject.raster_map }
 
-      it 'sets height of a map' do
-        expect(map.count).to eq height
+      it 'sets height of a raster_map' do
+        expect(raster_map.count).to eq height
       end
 
-      it 'sets width of a map' do
-        map.each do |row|
+      it 'sets width of a raster_map' do
+        raster_map.each do |row|
           expect(row.count).to eq width
         end
       end
@@ -27,8 +27,8 @@ describe ConsoleDraw::Canvas::Canvas do
     context 'when draw nothing' do
       before { subject.draw }
 
-      it 'does not change the map' do
-        expect(subject.map).to eq described_class.new(width, height).map
+      it 'does not change the raster_map' do
+        expect(subject.raster_map).to eq described_class.new(width, height).raster_map
       end
     end
 
@@ -39,13 +39,13 @@ describe ConsoleDraw::Canvas::Canvas do
 
       before { subject.draw figure }
 
-      it 'puts points to a map' do
-        expect(subject.map[2][1]).to eq point1
-        expect(subject.map[2][3]).to eq point2
+      it 'puts points to a raster_map' do
+        expect(subject.raster_map[2][1]).to eq point1
+        expect(subject.raster_map[2][3]).to eq point2
       end
 
       it 'does not touch other placeholders' do
-        expect(subject.map[1][0]).to be_nil
+        expect(subject.raster_map[1][0]).to be_nil
       end
     end
   end
