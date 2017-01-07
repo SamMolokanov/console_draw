@@ -21,9 +21,10 @@ module ConsoleDraw
 
       # Public: take points from figures and store on canvas
       #   figures - set of figures which implement ConsoleDraw::Figures::Base interface
-      # Returns: Nothing
+      # Returns: Canvas object
       def draw(*figures)
         figures.flat_map(&:calculate_points!).each { |point| self << point }
+        self
       end
 
       protected

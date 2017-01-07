@@ -1,5 +1,3 @@
-require_relative '../../lib/render/string_renderer'
-
 describe ConsoleDraw::Render::StringRenderer do
   describe '.render' do
     subject { described_class.render(points_map) }

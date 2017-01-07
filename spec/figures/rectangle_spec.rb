@@ -1,7 +1,3 @@
-require_relative '../../lib/figures/base'
-require_relative '../../lib/figures/rectangle'
-require_relative '../../lib/canvas/point'
-
 describe ConsoleDraw::Figures::Rectangle do
   it 'inherits the base figure' do
     expect(described_class).to be < ConsoleDraw::Figures::Base

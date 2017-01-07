@@ -1,5 +1,3 @@
-require_relative '../../lib/canvas/point'
-
 describe ConsoleDraw::Canvas::Point do
   let(:x) { rand }
   let(:y) { rand }

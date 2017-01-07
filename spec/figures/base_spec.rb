@@ -1,5 +1,3 @@
-require_relative '../../lib/figures/base'
-
 describe ConsoleDraw::Figures::Base do
   describe '#calculate_points!' do
     it 'raises NotImplemented Error' do

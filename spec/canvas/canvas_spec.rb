@@ -1,6 +1,3 @@
-require_relative '../../lib/canvas/canvas'
-require_relative '../../lib/canvas/point'
-
 describe ConsoleDraw::Canvas::Canvas do
   let(:width) { 4 }
   let(:height) { 5 }
@@ -24,6 +21,10 @@ describe ConsoleDraw::Canvas::Canvas do
   end
 
   describe '#draw' do
+    it 'returns self' do
+      expect(subject.draw).to eq subject
+    end
+
     context 'when draw nothing' do
       before { subject.draw }
 
