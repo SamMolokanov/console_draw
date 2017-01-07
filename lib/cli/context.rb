@@ -2,18 +2,34 @@ module ConsoleDraw
   module CLI
 
     # Class Context
-    #   Executes commands on canvas and renders result
+    #   Provides an interface to draw on canvas and render it to a string
     class Context
-      def initialize(renderer)
-        @renderer = renderer
-        @canvas = nil
+      NO_CANVAS_EXISTS = 'Please create a canvas first!'.freeze
+
+      def new_canvas(width, height)
+        @canvas = ConsoleDraw::Canvas::Canvas.new(width, height)
+        render
       end
 
-      # Public: Execute a command as proc, render canvas
-      # Returns: String, rendering of the canvas
-      def execute(command)
-        @canvas = command.call @canvas
-        @renderer.render @canvas.raster_map
+      def draw_line(x1, y1, x2, y2)
+        draw ConsoleDraw::Figures::Line.new(x1, y1, x2, y2)
+      end
+
+      def draw_rectangle(x1, y1, x2, y2)
+        draw ConsoleDraw::Figures::Rectangle.new(x1, y1, x2, y2)
+      end
+
+      private
+
+      def draw(figure)
+        return NO_CANVAS_EXISTS if @canvas.nil?
+
+        @canvas.draw figure
+        render
+      end
+
+      def render
+        ConsoleDraw::Render::StringRenderer.render @canvas.raster_map
       end
     end
   end

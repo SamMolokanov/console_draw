@@ -1,25 +1,60 @@
 describe ConsoleDraw::CLI::Context do
+  subject { described_class.new }
 
-  subject { described_class.new(renderer) }
+  let(:fake_canvas) { double 'Canvas', draw: :foo, raster_map: [] }
 
-  describe '#execute' do
-    before { subject.execute proc { canvas } }
+  before do
+    allow(ConsoleDraw::Canvas::Canvas).to receive(:new).and_return fake_canvas
+    allow(ConsoleDraw::Figures::Line).to receive(:new).and_return :foo
+    allow(ConsoleDraw::Figures::Rectangle).to receive(:new).and_return :bar
+    allow(ConsoleDraw::Render::StringRenderer).to receive :render
+  end
 
-    let(:renderer) { class_double 'Renderer', render: 'hello!' }
-    let(:canvas) { double 'Canvas', raster_map: [] }
-    let(:command) { proc { |canvas| canvas.draw(:foo) } }
+  shared_examples_for 'renders canvas' do
+    it { expect(ConsoleDraw::Render::StringRenderer).to have_received(:render).with(fake_canvas.raster_map) }
+  end
 
-    context 'when execute command' do
-      before { allow(canvas).to receive(:draw).and_return(canvas) }
+  describe '#new_canvas' do
+    before { subject.new_canvas(10, 10) }
 
-      it 'calls command on the canvas' do
-        subject.execute command
-        expect(canvas).to have_received(:draw).with :foo
-      end
-
-      it 'returns result of rendering' do
-        expect(subject.execute command).to eq renderer.render
-      end
+    it 'creates new Canvas with arguments' do
+      expect(ConsoleDraw::Canvas::Canvas).to have_received(:new).with(10, 10)
     end
+
+    it_behaves_like 'renders canvas'
+  end
+
+  describe '#draw_line' do
+    before do
+      subject.instance_variable_set :@canvas, fake_canvas
+      subject.draw_line(1, 1, 15, 15)
+    end
+
+    it 'creates new Line with arguments' do
+      expect(ConsoleDraw::Figures::Line).to have_received(:new).with(1, 1, 15, 15)
+    end
+
+    it 'calls #draw on canvas with arguments' do
+      expect(fake_canvas).to have_received(:draw).with :foo
+    end
+
+    it_behaves_like 'renders canvas'
+  end
+
+  describe '#draw_rectangle' do
+    before do
+      subject.instance_variable_set :@canvas, fake_canvas
+      subject.draw_rectangle(2, 2, 10, 10)
+    end
+
+    it 'creates new Rectangle with arguments' do
+      expect(ConsoleDraw::Figures::Rectangle).to have_received(:new).with(2, 2, 10, 10)
+    end
+
+    it 'calls #draw on canvas with arguments' do
+      expect(fake_canvas).to have_received(:draw).with :bar
+    end
+
+    it_behaves_like 'renders canvas'
   end
 end

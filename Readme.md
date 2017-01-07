@@ -37,4 +37,4 @@ Points map of canvas is rendered to string by class `ConsoleDraw::Render::String
 
 ## CLI
 
-Instantiates a context, renderer and command parser for the current session. Renderer is provided as a dependency injection to the context. Command parser accepts a user' input and returns a command to being executed in the context. After every execution, canvas in the context is rendered with the given renderer.
+Instantiates a command executor and sends user's input to the command executor. Command executor has a Context object, that provides an interface to draw on canvas and render canvas as String.
