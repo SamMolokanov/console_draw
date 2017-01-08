@@ -13,7 +13,7 @@ module ConsoleDraw
 
       # Public: Calculates points of the Rectangle object
       # Returns: Array of ConsoleDraw::Canvas::Point
-      def calculate_points!
+      def calculate_points
         [
           egde(@x1, @y1, @x2, @y1),
           egde(@x2, @y1, @x2, @y2),
@@ -27,7 +27,7 @@ module ConsoleDraw
       # Internal: Build a single line
       # Returns: Array of ConsoleDraw::Canvas::Point
       def egde(x1, y1, x2, y2)
-        ConsoleDraw::Figures::Line.new(x1, y1, x2, y2).calculate_points!
+        ConsoleDraw::Figures::Line.new(x1, y1, x2, y2).calculate_points
       end
     end
   end

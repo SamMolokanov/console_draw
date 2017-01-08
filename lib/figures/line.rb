@@ -14,7 +14,7 @@ module ConsoleDraw
 
       # Public: Calculates points of the Line object
       # Returns: Array of ConsoleDraw::Canvas::Point
-      def calculate_points!
+      def calculate_points
         bresenham(@x1, @y1, @x2, @y2).map { |x, y| ConsoleDraw::Canvas::Point.new x, y }
       end
 

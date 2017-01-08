@@ -22,10 +22,12 @@ module ConsoleDraw
       end
 
       # Public: take points from figures and store on canvas
-      #   figures - set of figures which implement ConsoleDraw::Figures::Base interface
+      #   figure - object which implement ConsoleDraw::Figures::Base interface
       # Returns: Canvas object
-      def draw(*figures)
-        figures.flat_map(&:calculate_points!).each do |point|
+      def draw(figure = nil)
+        return self if figure.nil?
+
+        figure.calculate_points.each do |point|
           raise InvalidCoordinatesError unless valid_coordinates?(point.x, point.y)
         end.each { |point| self << point }
 
