@@ -1,24 +1,28 @@
 module ConsoleDraw
   module Render
 
-    # Class: Renders points map as string
+    # Class: Renders raster map as string
     class StringRenderer
       class << self
         TRANSPARENT_CHAR = ' '.freeze
         DEFAULT_VISIBLE_CHAR = 'x'.freeze
 
         # Public: Iterates over points on map and collect string output. Same as "Raster scan"
-        #   points_map - 2-dimensional array with points
+        #   raster_map - 2-dimensional array with points
         #
-        # Example:
-        #   ConsoleDraw::Render::StringRenderer.render([[true, nil], [nil, true]])
-        #   # => "x \n x"
-        #
-        # Returns: String representation of points_map
-        def render(points_map)
-          points_map.map do |row|
-            row.map { |point| render_point(point) }.join
+        # Returns: String representation of raster_map with a frame
+        def render(raster_map)
+          return '' if raster_map.empty?
+
+          horizontal_line = '-' * (raster_map[0].count + 2)
+
+          output = horizontal_line + "\n"
+
+          output += raster_map.map do |row|
+            "|#{row.map { |point| render_point(point) }.join}|"
           end.join("\n")
+
+          output + "\n" + horizontal_line
         end
 
         private
