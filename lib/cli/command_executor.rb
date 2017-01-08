@@ -7,6 +7,9 @@ module ConsoleDraw
       # Example: C 5 10
       CANVAS_COMMAND = /^[C]\s(?<x>\d+)\s(?<y>\d+)$/
 
+      # Example: B 5 10 o
+      FILL_COMMAND = /^[B]\s(?<x>\d+)\s(?<y>\d+)\s(?<color>[a-zA-Z])$/
+
       # Example: L 1 1 2 3
       LINE_COMMAND = /^[L]\s(?<x1>\d+)\s(?<y1>\d+)\s(?<x2>\d+)\s(?<y2>\d+)$/
 
@@ -28,6 +31,8 @@ module ConsoleDraw
         case string_input
         when CANVAS_COMMAND
           @context.new_canvas($~[:x].to_i, $~[:y].to_i)
+        when FILL_COMMAND
+          @context.fill($~[:x].to_i, $~[:y].to_i, $~[:color])
         when LINE_COMMAND
           @context.draw_line($~[:x1].to_i, $~[:y1].to_i, $~[:x2].to_i, $~[:y2].to_i)
         when RECTANGLE_COMMAND

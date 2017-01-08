@@ -12,19 +12,28 @@ module ConsoleDraw
       end
 
       def draw_line(x1, y1, x2, y2)
-        draw ConsoleDraw::Figures::Line.new(x1, y1, x2, y2)
+        render_with_validation do
+          @canvas.draw ConsoleDraw::Figures::Line.new(x1, y1, x2, y2)
+        end
       end
 
       def draw_rectangle(x1, y1, x2, y2)
-        draw ConsoleDraw::Figures::Rectangle.new(x1, y1, x2, y2)
+        render_with_validation do
+          @canvas.draw ConsoleDraw::Figures::Rectangle.new(x1, y1, x2, y2)
+        end
+      end
+
+      def fill(x, y, color)
+        render_with_validation do
+          @canvas.fill(x, y, color)
+        end
       end
 
       private
 
-      def draw(figure)
+      def render_with_validation(&block)
         return NO_CANVAS_EXISTS if @canvas.nil?
-
-        @canvas.draw figure
+        block.call
         render
       end
 

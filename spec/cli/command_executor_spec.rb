@@ -1,6 +1,6 @@
 describe ConsoleDraw::CLI::CommandExecutor do
   describe '#execute' do
-    let(:fake_context) { double 'Context', new_canvas: :foo, draw_line: :bar, draw_rectangle: :baz }
+    let(:fake_context) { double 'Context', new_canvas: :foo, draw_line: :bar, draw_rectangle: :baz, fill: :bam }
 
     before do
       allow(ConsoleDraw::CLI::Context).to receive(:new).and_return fake_context
@@ -22,7 +22,6 @@ describe ConsoleDraw::CLI::CommandExecutor do
       it 'generates new line' do
         expect(fake_context).to have_received(:draw_line).with(1, 1, 10, 10)
       end
-
     end
 
     context 'when draw Rectangle command' do
@@ -30,6 +29,14 @@ describe ConsoleDraw::CLI::CommandExecutor do
 
       it 'generates new rectangle' do
         expect(fake_context).to have_received(:draw_rectangle).with(1, 1, 10, 10)
+      end
+    end
+
+    context 'when fill area' do
+      let(:user_input) { 'B 1 1 a' }
+
+      it 'call method fill of the context' do
+        expect(fake_context).to have_received(:fill).with(1, 1, 'a')
       end
     end
 

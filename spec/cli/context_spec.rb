@@ -1,7 +1,7 @@
 describe ConsoleDraw::CLI::Context do
   subject { described_class.new }
 
-  let(:fake_canvas) { double 'Canvas', draw: :foo, raster_map: [] }
+  let(:fake_canvas) { double 'Canvas', draw: :foo, fill: :bar, raster_map: [] }
 
   before do
     allow(ConsoleDraw::Canvas::Canvas).to receive(:new).and_return fake_canvas
@@ -53,6 +53,19 @@ describe ConsoleDraw::CLI::Context do
 
     it 'calls #draw on canvas with arguments' do
       expect(fake_canvas).to have_received(:draw).with :bar
+    end
+
+    it_behaves_like 'renders canvas'
+  end
+
+  describe '#fill' do
+    before do
+      subject.instance_variable_set :@canvas, fake_canvas
+      subject.fill(1, 1, 'a')
+    end
+
+    it 'calls #fill on canvas with arguments' do
+      expect(fake_canvas).to have_received(:fill).with(1, 1, 'a')
     end
 
     it_behaves_like 'renders canvas'
