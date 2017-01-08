@@ -27,11 +27,74 @@ module ConsoleDraw
         self
       end
 
+      # Public: Fill the entire area connected to (x,y) of the given point with a color.
+      #   Uses https://en.wikipedia.org/wiki/Flood_fill#Alternative_implementations
+      #   Implemented a variant of algorithm with a Queue
+      #
+      #  Modifications:
+      #    1. According to task it fills with a color only empty areas.
+      #
+      #    2. Since a default point does not have a color, on enqueue step
+      #      it checks for an existence of neighbour point instead of its color.
+      #      No need to check for a color on enqueued coordinates
+      #      because coordinates with a colored point are never enqueued
+      #
+      #    3. Checking if coordinates are not enqueued already slightly improves performance.
+      #
+      # Returns: Canvas object
+      def fill(x, y, color)
+        # If given color is nil, return.
+        return if color == nil
+
+        # If the point is set, return.
+        return unless @raster_map[y][x].nil?
+
+        # Set the empty queue as Array. Add initial coordinates to the queue.
+        queue = [[x, y]]
+
+        # While queue is not empty
+        while queue.count != 0
+          # Remove first element from queue.
+          enc_x, enc_y = queue.shift
+
+          # Set a point with the color and dequeued coordinates on @raster_map
+          self << Point.new(enc_x, enc_y, color)
+
+          enqueue = proc do |new_x, new_y|
+            if valid_coordinates?(new_x, new_y) && @raster_map[new_y][new_x].nil?
+              queue.push [new_x, new_y] unless queue.include?([new_x, new_y])
+            end
+          end
+
+          # Add west point to the queue.
+          enqueue[enc_x - 1, enc_y]
+
+          # Add east point to the queue.
+          enqueue[enc_x + 1, enc_y]
+
+          # Add north point to the queue.
+          enqueue[enc_x, enc_y - 1]
+
+          # Add south point to the queue.
+          enqueue[enc_x, enc_y + 1]
+        end
+
+        self
+      end
+
       protected
 
       # Internal: Put point into @raster_map based on its coordinates
       def <<(point)
         @raster_map[point.y][point.x] = point
+      end
+
+      private
+
+      # Internal: Validates coordinates values. Should be fine with @raster_map size.
+      # Returns: Boolean
+      def valid_coordinates?(x, y)
+        x >= 0 && y >= 0 && y < @raster_map.count && x < @raster_map[y].count
       end
     end
   end

@@ -50,4 +50,48 @@ describe ConsoleDraw::Canvas::Canvas do
       end
     end
   end
+
+  describe '#fill' do
+    it 'returns self' do
+      expect(subject.fill(1, 2, 'o')).to eq subject
+    end
+
+    context 'when canvas is empty' do
+      before { subject.fill(1, 2, 'o') }
+
+      it 'fills all empty canvas' do
+        expect(subject.raster_map.flatten.map &:color).to all eq 'o'
+      end
+    end
+
+    context 'when canvas has an area' do
+      before do
+        subject.draw(ConsoleDraw::Figures::Line.new(0, 3, 3, 3))
+        subject.fill(1, 2, 'o')
+      end
+
+      it 'fills only area of point' do
+        expect(subject.raster_map[0].map &:color).to all eq 'o'
+        expect(subject.raster_map[1].map &:color).to all eq 'o'
+        expect(subject.raster_map[2].map &:color).to all eq 'o'
+        expect(subject.raster_map[3].map &:color).to all eq nil # Line
+        expect(subject.raster_map[4]).to all eq nil
+      end
+    end
+
+    context 'when point is already drawn' do
+      before do
+        subject.draw(ConsoleDraw::Figures::Line.new(0, 3, 3, 3))
+        subject.fill(3, 3, 'o')
+      end
+
+      it 'does nothing' do
+        expect(subject.raster_map[0]).to all eq nil
+        expect(subject.raster_map[1]).to all eq nil
+        expect(subject.raster_map[2]).to all eq nil
+        expect(subject.raster_map[3].map &:color).to all eq nil # Line
+        expect(subject.raster_map[4]).to all eq nil
+      end
+    end
+  end
 end
