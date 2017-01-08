@@ -31,7 +31,7 @@ describe ConsoleDraw::CLI::Context do
     end
 
     it 'creates new Line with arguments' do
-      expect(ConsoleDraw::Figures::Line).to have_received(:new).with(1, 1, 15, 15)
+      expect(ConsoleDraw::Figures::Line).to have_received(:new).with(0, 0, 14, 14)
     end
 
     it 'calls #draw on canvas with arguments' do
@@ -48,7 +48,7 @@ describe ConsoleDraw::CLI::Context do
     end
 
     it 'creates new Rectangle with arguments' do
-      expect(ConsoleDraw::Figures::Rectangle).to have_received(:new).with(2, 2, 10, 10)
+      expect(ConsoleDraw::Figures::Rectangle).to have_received(:new).with(1, 1, 9, 9)
     end
 
     it 'calls #draw on canvas with arguments' do
@@ -65,7 +65,7 @@ describe ConsoleDraw::CLI::Context do
     end
 
     it 'calls #fill on canvas with arguments' do
-      expect(fake_canvas).to have_received(:fill).with(1, 1, 'a')
+      expect(fake_canvas).to have_received(:fill).with(0, 0, 'a')
     end
 
     it_behaves_like 'renders canvas'
