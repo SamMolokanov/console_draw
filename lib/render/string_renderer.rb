@@ -5,7 +5,7 @@ module ConsoleDraw
     class StringRenderer
       class << self
         TRANSPARENT_CHAR = ' '.freeze
-        VISIBLE_CHAR = 'x'.freeze
+        DEFAULT_VISIBLE_CHAR = 'x'.freeze
 
         # Public: Iterates over points on map and collect string output. Same as "Raster scan"
         #   points_map - 2-dimensional array with points
@@ -24,7 +24,7 @@ module ConsoleDraw
         private
 
         def render_point(point)
-          point.nil? ? TRANSPARENT_CHAR : VISIBLE_CHAR
+          point.nil? ? TRANSPARENT_CHAR : (point.color || DEFAULT_VISIBLE_CHAR)
         end
       end
     end

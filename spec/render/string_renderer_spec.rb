@@ -19,10 +19,13 @@ describe ConsoleDraw::Render::StringRenderer do
     end
 
     context 'when map with points and holes' do
-      let(:points_map) { [[nil, true], [true, nil]] }
+      let(:fake_point_a) { double 'Point', color: 'a' }
+      let(:fake_point_b) { double 'Point', color: 'b' }
+
+      let(:points_map) { [[nil, fake_point_a], [fake_point_b, nil]] }
 
       it 'renders visible chars and spaces' do
-        expect(subject).to eq " x\nx "
+        expect(subject).to eq " a\nb "
       end
     end
   end
