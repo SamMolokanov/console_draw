@@ -18,6 +18,20 @@ describe ConsoleDraw::Canvas::Canvas do
         end
       end
     end
+
+    context 'invalid width or height' do
+      it 'raises an error for negative width' do
+        expect { described_class.new(-1, 2) }.to raise_exception ConsoleDraw::Canvas::InvalidCanvasSizeError
+      end
+
+      it 'raises an error for negative height' do
+        expect { described_class.new(1, -2) }.to raise_exception ConsoleDraw::Canvas::InvalidCanvasSizeError
+      end
+
+      it 'raises an error for zero value' do
+        expect { described_class.new(1, 0) }.to raise_exception ConsoleDraw::Canvas::InvalidCanvasSizeError
+      end
+    end
   end
 
   describe '#draw' do
@@ -47,6 +61,26 @@ describe ConsoleDraw::Canvas::Canvas do
 
       it 'does not touch other placeholders' do
         expect(subject.raster_map[1][0]).to be_nil
+      end
+    end
+
+    context 'when draw invalid figure' do
+      shared_examples_for 'raises InvalidCoordinatesError' do
+        it { expect { subject.draw figure }.to raise_exception ConsoleDraw::Canvas::InvalidCoordinatesError }
+      end
+
+      context 'when figure is bigger than Canvas' do
+        let(:point) { ConsoleDraw::Canvas::Point.new(1, 200) }
+        let(:figure) { double 'DumbFigure', calculate_points!: [point] }
+
+        it_behaves_like 'raises InvalidCoordinatesError'
+      end
+
+      context 'when figure has negative coordinates' do
+        let(:point) { ConsoleDraw::Canvas::Point.new(-1, 2) }
+        let(:figure) { double 'DumbFigure', calculate_points!: [point] }
+
+        it_behaves_like 'raises InvalidCoordinatesError'
       end
     end
   end

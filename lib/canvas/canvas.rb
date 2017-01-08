@@ -16,6 +16,8 @@ module ConsoleDraw
       attr_reader :raster_map
 
       def initialize(width, height)
+        raise InvalidCanvasSizeError if width < 1 || height < 1
+
         @raster_map = Array.new(height) { |_| Array.new(width) }
       end
 
@@ -84,8 +86,10 @@ module ConsoleDraw
 
       protected
 
-      # Internal: Put point into @raster_map based on its coordinates
+      # Internal: Put point into @raster_map based on its coordinates or raise exception
       def <<(point)
+        raise InvalidCoordinatesError unless valid_coordinates?(point.x, point.y)
+
         @raster_map[point.y][point.x] = point
       end
 

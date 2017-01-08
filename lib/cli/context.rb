@@ -9,6 +9,8 @@ module ConsoleDraw
       def new_canvas(width, height)
         @canvas = ConsoleDraw::Canvas::Canvas.new(width, height)
         render
+      rescue ConsoleDraw::Canvas::CanvasError => e
+        e.message
       end
 
       def draw_line(x1, y1, x2, y2)
@@ -35,6 +37,8 @@ module ConsoleDraw
         return NO_CANVAS_EXISTS if @canvas.nil?
         block.call
         render
+      rescue ConsoleDraw::Canvas::CanvasError => e
+        e.message
       end
 
       def render
