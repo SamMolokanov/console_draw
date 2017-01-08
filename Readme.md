@@ -13,6 +13,36 @@ Console Draw is a simple console version of a drawing program.
 
         $ rspec
 
+## Using
+
+1. Run application with
+
+        ./bin/console_draw
+
+2. Create a canvas
+
+        C 20 20
+
+3. Draw a rectangle with
+
+        R 2 2 18 18
+
+4. Draw a line with
+
+        L 18 18 2 2
+
+5. Fill upper area of the rectangle with 'o'
+
+        B 10 5 o
+
+6. Fill lower area of the rectangle with 'i'
+
+        B 10 15 i
+
+7. Quit the application with
+
+        Q
+
 ## Details
 
 ### Supported figures
