@@ -67,6 +67,16 @@ describe ConsoleDraw::Canvas::Canvas do
     context 'when draw invalid figure' do
       shared_examples_for 'raises InvalidCoordinatesError' do
         it { expect { subject.draw figure }.to raise_exception ConsoleDraw::Canvas::InvalidCoordinatesError }
+
+        it 'does not mutate raster_map' do
+          old_map = subject.raster_map
+
+          begin
+            subject.draw figure
+          rescue ConsoleDraw::Canvas::InvalidCoordinatesError
+            expect(old_map).to eq subject.raster_map
+          end
+        end
       end
 
       context 'when figure is bigger than Canvas' do

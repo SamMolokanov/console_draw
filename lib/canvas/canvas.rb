@@ -25,7 +25,10 @@ module ConsoleDraw
       #   figures - set of figures which implement ConsoleDraw::Figures::Base interface
       # Returns: Canvas object
       def draw(*figures)
-        figures.flat_map(&:calculate_points!).each { |point| self << point }
+        figures.flat_map(&:calculate_points!).each do |point|
+          raise InvalidCoordinatesError unless valid_coordinates?(point.x, point.y)
+        end.each { |point| self << point }
+
         self
       end
 
@@ -86,10 +89,8 @@ module ConsoleDraw
 
       protected
 
-      # Internal: Put point into @raster_map based on its coordinates or raise exception
+      # Internal: Put point into @raster_map based on its coordinates
       def <<(point)
-        raise InvalidCoordinatesError unless valid_coordinates?(point.x, point.y)
-
         @raster_map[point.y][point.x] = point
       end
 
