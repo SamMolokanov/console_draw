@@ -109,13 +109,13 @@ module ConsoleDraw
       # Internal: Validates coordinates values. Should be fine with @raster_map size.
       # Returns: Boolean
       def valid_coordinates?(x, y)
-        x >= 0 && y >= 0 && y < @raster_map.count && x < @raster_map[y].count
+        x >= 0 && y >= 0 && y < height && x < width
       end
 
       # Internal: build raster map as a 2-dimensional array
       # Returns: Raster map
       def initialize_raster
-        @raster_map = Array.new(@height) { |_| Array.new(@width) }
+        @raster_map = Array.new(height) { |_| Array.new(width) }
       end
     end
   end
