@@ -1,7 +1,9 @@
 describe ConsoleDraw::CLI::Context do
   subject { described_class.new }
 
-  let(:fake_canvas) { double 'Canvas', draw: :foo, fill: :bar, raster_map: [] }
+  let(:fake_canvas) do
+    double 'Canvas', clean!: :asd, draw: :foo, fill: :bar, raster_map: []
+  end
 
   before do
     allow(ConsoleDraw::Canvas::Canvas).to receive(:new).and_return fake_canvas
@@ -22,6 +24,25 @@ describe ConsoleDraw::CLI::Context do
     end
 
     it_behaves_like 'renders canvas'
+  end
+
+  describe '#clean_canvas' do
+    context 'when canvas exists' do
+      before do
+        subject.new_canvas(10, 10)
+        subject.clean_canvas
+      end
+
+      it 'calls clean! on canvas' do
+        expect(fake_canvas).to have_received(:clean!)
+      end
+    end
+
+    context 'canvas does not exist' do
+      it 'return NO_CANVAS_MESSAGE' do
+        expect(subject.clean_canvas).to eq described_class::NO_CANVAS_EXISTS
+      end
+    end
   end
 
   describe '#draw_line' do

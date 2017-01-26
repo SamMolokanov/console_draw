@@ -1,6 +1,13 @@
 describe ConsoleDraw::CLI::CommandExecutor do
   describe '#execute' do
-    let(:fake_context) { double 'Context', new_canvas: :foo, draw_line: :bar, draw_rectangle: :baz, fill: :bam }
+    let(:fake_context) do
+      double 'Context',
+             new_canvas: :foo,
+             draw_line: :bar,
+             draw_rectangle: :baz,
+             fill: :bam,
+             clean_canvas: :asd
+    end
 
     before do
       allow(ConsoleDraw::CLI::Context).to receive(:new).and_return fake_context
@@ -13,6 +20,14 @@ describe ConsoleDraw::CLI::CommandExecutor do
 
       it 'initializes a new canvas' do
         expect(fake_context).to have_received(:new_canvas).with(15, 15)
+      end
+    end
+
+    context 'when new clean Canvas command' do
+      let(:user_input) { 'C' }
+
+      it 'asks context to clean canvas' do
+        expect(fake_context).to have_received(:clean_canvas)
       end
     end
 

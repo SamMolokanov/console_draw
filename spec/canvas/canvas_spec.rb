@@ -138,4 +138,27 @@ describe ConsoleDraw::Canvas::Canvas do
       end
     end
   end
+
+  describe '#clean!' do
+    before do
+      subject.draw(ConsoleDraw::Figures::Line.new(0, 3, 3, 3))
+      subject.clean!
+    end
+
+    it 'cleans raster map' do
+      expect(subject.raster_map[0]).to all eq nil
+      expect(subject.raster_map[1]).to all eq nil
+      expect(subject.raster_map[2]).to all eq nil
+      expect(subject.raster_map[3]).to all eq nil
+      expect(subject.raster_map[4]).to all eq nil
+    end
+
+    it 'does not change a width' do
+      expect(subject.width).to eq width
+    end
+
+    it 'does not change a height' do
+      expect(subject.height).to eq height
+    end
+  end
 end

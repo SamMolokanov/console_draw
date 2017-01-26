@@ -14,6 +14,10 @@ module ConsoleDraw
         e.message
       end
 
+      def clean_canvas
+        render_with_validation { @canvas.clean! }
+      end
+
       def draw_line(x1, y1, x2, y2)
         render_with_validation do
           @canvas.draw ConsoleDraw::Figures::Line.new(x1 - 1, y1 - 1, x2 - 1, y2 - 1)

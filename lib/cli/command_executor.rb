@@ -7,6 +7,9 @@ module ConsoleDraw
       # Example: C 5 10
       CANVAS_COMMAND = /^[C]\s(?<x>\d+)\s(?<y>\d+)$/
 
+      # Example: C
+      CLEAN_CANVAS_COMMAND = /^C$/
+
       # Example: B 5 10 o
       FILL_COMMAND = /^[B]\s(?<x>\d+)\s(?<y>\d+)\s(?<color>[a-zA-Z])$/
 
@@ -49,6 +52,8 @@ module ConsoleDraw
           ensure_confirmation($~[:x1].to_i, $~[:y1].to_i, $~[:x2].to_i, $~[:y2].to_i) do |args|
             @context.draw_rectangle *args
           end
+        when CLEAN_CANVAS_COMMAND
+          @context.clean_canvas
         when CONFIRM_COMMAND
           confirm_command
         when QUIT_COMMAND

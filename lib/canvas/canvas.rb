@@ -13,12 +13,20 @@ module ConsoleDraw
     #   canvas.draw(figure1, figure2)
     #
     class Canvas
-      attr_reader :raster_map
+      attr_reader :raster_map, :width, :height
 
       def initialize(width, height)
+        @width, @height = width, height
         raise InvalidCanvasSizeError if width < 1 || height < 1
 
-        @raster_map = Array.new(height) { |_| Array.new(width) }
+        initialize_raster
+      end
+
+      # Public: Cleans current canvas
+      # Returns: Updated Canvas object
+      def clean!
+        initialize_raster
+        self
       end
 
       # Public: take points from figures and store on canvas
@@ -102,6 +110,12 @@ module ConsoleDraw
       # Returns: Boolean
       def valid_coordinates?(x, y)
         x >= 0 && y >= 0 && y < @raster_map.count && x < @raster_map[y].count
+      end
+
+      # Internal: build raster map as a 2-dimensional array
+      # Returns: Raster map
+      def initialize_raster
+        @raster_map = Array.new(@height) { |_| Array.new(@width) }
       end
     end
   end
