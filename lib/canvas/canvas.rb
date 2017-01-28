@@ -1,8 +1,7 @@
 module ConsoleDraw
   module Canvas
-    # Class: Canvas, draws figures.
-    # Points of figures are stored in a @points.
-    # point.y - is a row index, point.x - index in a row
+    # Class: Canvas
+    # Acts as points storage and provides an interface for that storage.
     #
     # Example:
     #   # w, h - width and height of the canvas in points

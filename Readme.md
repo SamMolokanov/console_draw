@@ -10,38 +10,38 @@ One of the popular tasks for tech interview is an implementation of application 
 
 1. Install Bundler and dependencies
 
-        $ gem install bundler
-        $ bundle install
+       $ gem install bundler
+       $ bundle install
 
 2. Run specs
 
-        $ rspec
+       $ rspec
 
 ## Using
 
 1. Run application with
 
-        ./bin/console_draw
+       ./bin/console_draw
 
 2. Create a canvas
 
-        C 10 10
+       C 10 10
 
 3. Draw a rectangle with
 
-        R 2 2 9 9
+       R 2 2 9 9
 
 4. Draw lines with
 
-        L 9 9 2 2
-        L 2 9 9 2
+       L 9 9 2 2
+       L 2 9 9 2
 
 5. Fill areas
 
-        B 5 3 i
-        B 5 8 i
-        B 3 5 o
-        B 8 5 o
+       B 5 3 i
+       B 5 8 i
+       B 3 5 o
+       B 8 5 o
 
 The result is
 
@@ -60,11 +60,11 @@ The result is
 
 6. Clean the canvas with
 
-        C
+       C
 
 7. Quit the application with
 
-        Q
+       Q
 
 
 ## Details
