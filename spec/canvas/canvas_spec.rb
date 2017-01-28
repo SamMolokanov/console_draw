@@ -42,7 +42,7 @@ describe ConsoleDraw::Canvas::Canvas do
     context 'when draw a dumb figure' do
       let(:point1) { ConsoleDraw::Canvas::Point.new(1, 2) }
       let(:point2) { ConsoleDraw::Canvas::Point.new(3, 2) }
-      let(:figure) { double 'DumbFigure', calculate_points: [point1, point2] }
+      let(:figure) { double 'DumbFigure', calculate_coordinates: [[1, 2], [3, 2]] }
 
       before { subject.draw figure }
 
@@ -72,15 +72,13 @@ describe ConsoleDraw::Canvas::Canvas do
       end
 
       context 'when figure is bigger than Canvas' do
-        let(:point) { ConsoleDraw::Canvas::Point.new(1, 200) }
-        let(:figure) { double 'DumbFigure', calculate_points: [point] }
+        let(:figure) { double 'DumbFigure', calculate_coordinates: [[1, 200]] }
 
         it_behaves_like 'raises InvalidCoordinatesError'
       end
 
       context 'when figure has negative coordinates' do
-        let(:point) { ConsoleDraw::Canvas::Point.new(-1, 2) }
-        let(:figure) { double 'DumbFigure', calculate_points: [point] }
+        let(:figure) { double 'DumbFigure', calculate_coordinates: [[-1, 2]] }
 
         it_behaves_like 'raises InvalidCoordinatesError'
       end
@@ -109,8 +107,8 @@ describe ConsoleDraw::Canvas::Canvas do
       end
 
       it 'does not change color of a line' do
-        figure.calculate_points.each do |point|
-          expect(subject.get_point(point.x, point.y).color).to eq nil
+        figure.calculate_coordinates.each do |x, y|
+          expect(subject.get_point(x, y).color).to eq nil
         end
       end
 
@@ -130,8 +128,8 @@ describe ConsoleDraw::Canvas::Canvas do
       end
 
       it 'does not change color of a line' do
-        figure.calculate_points.each do |point|
-          expect(subject.get_point(point.x, point.y).color).to eq nil
+        figure.calculate_coordinates.each do |x, y|
+          expect(subject.get_point(x, y).color).to eq nil
         end
       end
 

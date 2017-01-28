@@ -3,8 +3,8 @@ describe ConsoleDraw::Figures::Circle do
     expect(described_class).to be < ConsoleDraw::Figures::Base
   end
 
-  describe '#calculate_points' do
-    subject { described_class.new(x, y, r).calculate_points }
+  describe '#calculate_coordinates' do
+    subject { described_class.new(x, y, r).calculate_coordinates }
 
     context 'when radius is zero' do
       let(:x) { rand 5 }
@@ -12,7 +12,7 @@ describe ConsoleDraw::Figures::Circle do
       let(:r) { 0 }
 
       it 'returns array with a single point' do
-        expect(subject).to eq [ConsoleDraw::Canvas::Point.new(x, y)]
+        expect(subject).to eq [[x, y]]
       end
     end
 
@@ -22,7 +22,7 @@ describe ConsoleDraw::Figures::Circle do
       let(:r) { 1 }
 
       it 'returns an array of points' do
-        expect(subject.map { |point| [point.x, point.y] }).to eq [[5, 6], [5, 4], [6, 5], [4, 5]]
+        expect(subject).to eq [[5, 6], [5, 4], [6, 5], [4, 5]]
       end
     end
   end

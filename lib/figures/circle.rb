@@ -1,4 +1,3 @@
-
 module ConsoleDraw
   module Figures
     # Class: Circle figure
@@ -16,30 +15,30 @@ module ConsoleDraw
         @x, @y, @r = x, y, r
       end
 
-      # Public: Calculates points of the Circle
-      # Returns: Array of ConsoleDraw::Canvas::Point
-      def calculate_points
-        bresenham_circle_points.uniq.map { |x, y| ConsoleDraw::Canvas::Point.new x, y }
+      # Public: Calculates coordinates of the Circle
+      # Returns: Array of coordinates [x, y]
+      def calculate_coordinates
+        bresenham_circle_coordinates
       end
 
       private
 
-      # Public: Calculates points for Circle
+      # Public: Calculates coordinates for Circle
       #   Implements variation on Bresenham' algorythm for circle
       #   https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
-      # Returns: Array of Points
-      def bresenham_circle_points
-        points = []
+      # Returns: Array coordinates
+      def bresenham_circle_coordinates
+        coordinates = []
 
         populate_symmetric = -> (x, y) {
-          points << [x, y]
-          points << [x, -y]
-          points << [-x, -y]
-          points << [-x, y]
-          points << [y, x]
-          points << [y, -x]
-          points << [-y, -x]
-          points << [-y, x]
+          coordinates << [x, y]
+          coordinates << [x, -y]
+          coordinates << [-x, -y]
+          coordinates << [-x, y]
+          coordinates << [y, x]
+          coordinates << [y, -x]
+          coordinates << [-y, -x]
+          coordinates << [-y, x]
         }
 
         # start from the upper point of the circle
@@ -62,7 +61,7 @@ module ConsoleDraw
         end
 
         # move circle to proper center position
-        points.map { |x, y| [x + @x, y + @y] }
+        coordinates.uniq.map { |x, y| [x + @x, y + @y] }
       end
     end
   end

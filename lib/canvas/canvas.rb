@@ -46,9 +46,9 @@ module ConsoleDraw
       def draw(figure = nil)
         return self if figure.nil?
 
-        figure.calculate_points.each do |point|
-          raise InvalidCoordinatesError unless valid_coordinates?(point.x, point.y)
-        end.each { |point| set_point(point) }
+        figure.calculate_coordinates.each do |x, y|
+          raise InvalidCoordinatesError unless valid_coordinates?(x, y)
+        end.each { |x, y| set_point ConsoleDraw::Canvas::Point.new(x, y) }
 
         self
       end
