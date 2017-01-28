@@ -9,6 +9,7 @@ describe ConsoleDraw::CLI::Context do
     allow(ConsoleDraw::Canvas::Canvas).to receive(:new).and_return fake_canvas
     allow(ConsoleDraw::Figures::Line).to receive(:new).and_return :foo
     allow(ConsoleDraw::Figures::Rectangle).to receive(:new).and_return :bar
+    allow(ConsoleDraw::Figures::Circle).to receive(:new).and_return :circle
     allow(ConsoleDraw::Render::StringRenderer).to receive :render
   end
 
@@ -74,6 +75,23 @@ describe ConsoleDraw::CLI::Context do
 
     it 'calls #draw on canvas with arguments' do
       expect(fake_canvas).to have_received(:draw).with :bar
+    end
+
+    it_behaves_like 'renders canvas'
+  end
+
+  describe '#draw_circle' do
+    before do
+      subject.instance_variable_set :@canvas, fake_canvas
+      subject.draw_circle(5, 5, 4)
+    end
+
+    it 'creates new Rectangle with arguments' do
+      expect(ConsoleDraw::Figures::Circle).to have_received(:new).with(4, 4, 4)
+    end
+
+    it 'calls #draw on canvas with arguments' do
+      expect(fake_canvas).to have_received(:draw).with :circle
     end
 
     it_behaves_like 'renders canvas'

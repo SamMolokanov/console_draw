@@ -62,7 +62,11 @@ The result is
 
        C
 
-7. Quit the application with
+7. Draw a circle with with
+
+       CIRCLE 5 5 3
+
+8. Quit the application with
 
        Q
 
@@ -80,6 +84,10 @@ Line figure generates points by [algorithm of Bresenham](https://en.wikipedia.or
 ### Rectangle
 
 Rectangle figure uses Line figures as edges to generate points. Input parameters for a rectangle are coordinates of an upper left and a lower right corners.
+
+### Circle
+
+Circle figure generates points by [algorithm of Bresenham](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm) for raster image. Input parameters for a circle are coordinates of the center and radius.
 
 ### Canvas
 

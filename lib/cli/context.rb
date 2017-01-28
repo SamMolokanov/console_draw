@@ -30,6 +30,12 @@ module ConsoleDraw
         end
       end
 
+      def draw_circle(x, y, r)
+        render_with_validation do
+          @canvas.draw ConsoleDraw::Figures::Circle.new(x - 1, y - 1, r)
+        end
+      end
+
       def fill(x, y, color)
         render_with_validation do
           @canvas.fill(x - 1, y - 1, color)

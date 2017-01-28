@@ -5,6 +5,7 @@ describe ConsoleDraw::CLI::CommandExecutor do
              new_canvas: :foo,
              draw_line: :bar,
              draw_rectangle: :baz,
+             draw_circle: :ops,
              fill: :bam,
              clean_canvas: :asd
     end
@@ -44,6 +45,14 @@ describe ConsoleDraw::CLI::CommandExecutor do
 
       it 'generates new rectangle' do
         expect(fake_context).to have_received(:draw_rectangle).with(1, 1, 10, 10)
+      end
+    end
+
+    context 'when draw Circle command' do
+      let(:user_input) { 'CIRCLE 5 5 2' }
+
+      it 'generates new circle' do
+        expect(fake_context).to have_received(:draw_circle).with(5, 5, 2)
       end
     end
 

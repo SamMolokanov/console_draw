@@ -19,6 +19,9 @@ module ConsoleDraw
       # Example: R 1 1 2 3
       RECTANGLE_COMMAND = /^[R]\s(?<x1>\d+)\s(?<y1>\d+)\s(?<x2>\d+)\s(?<y2>\d+)$/
 
+      # Example: CIRCLE 1 1 2 3
+      CIRCLE_COMMAND = /^CIRCLE\s(?<x>\d+)\s(?<y>\d+)\s(?<r>\d+)$/
+
       # Example: Q
       QUIT_COMMAND = /^Q$/
 
@@ -51,6 +54,10 @@ module ConsoleDraw
         when RECTANGLE_COMMAND
           ensure_confirmation($~[:x1].to_i, $~[:y1].to_i, $~[:x2].to_i, $~[:y2].to_i) do |args|
             @context.draw_rectangle *args
+          end
+        when CIRCLE_COMMAND
+          ensure_confirmation($~[:x].to_i, $~[:y].to_i, $~[:r].to_i) do |args|
+            @context.draw_circle *args
           end
         when CLEAN_CANVAS_COMMAND
           @context.clean_canvas
