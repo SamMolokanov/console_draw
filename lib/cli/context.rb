@@ -47,7 +47,7 @@ module ConsoleDraw
       end
 
       def render
-        ConsoleDraw::Render::StringRenderer.render @canvas.raster_map
+        ConsoleDraw::Render::StringRenderer.render @canvas
       end
     end
   end

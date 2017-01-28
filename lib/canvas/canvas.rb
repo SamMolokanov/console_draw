@@ -1,8 +1,7 @@
 module ConsoleDraw
   module Canvas
     # Class: Canvas, draws figures.
-    # Points of figures are stored in a 2-dimensional array @raster_map.
-    # @raster_maps is an array of rows, every row is an array of points,
+    # Points of figures are stored in a @points.
     # point.y - is a row index, point.x - index in a row
     #
     # Example:
@@ -13,19 +12,32 @@ module ConsoleDraw
     #   canvas.draw(figure1, figure2)
     #
     class Canvas
-      attr_reader :raster_map, :width, :height
+      attr_reader :points, :width, :height
 
       def initialize(width, height)
-        @width, @height = width, height
         raise InvalidCanvasSizeError if width < 1 || height < 1
+        @width, @height = width, height
 
-        initialize_raster
+        initialize_points
+      end
+
+      # Public: Get point
+      #   x, y - coordinates of point
+      # Return: Point instance
+      def get_point(x, y)
+        @points[y * width + x]
+      end
+
+      # Public: Set a point
+      # Return: Point instance
+      def set_point(point)
+        @points[point.y * width + point.x] = point
       end
 
       # Public: Cleans current canvas
       # Returns: Updated Canvas object
       def clean!
-        initialize_raster
+        initialize_points
         self
       end
 
@@ -37,7 +49,7 @@ module ConsoleDraw
 
         figure.calculate_points.each do |point|
           raise InvalidCoordinatesError unless valid_coordinates?(point.x, point.y)
-        end.each { |point| self << point }
+        end.each { |point| set_point(point) }
 
         self
       end
@@ -62,7 +74,7 @@ module ConsoleDraw
         return if color == nil
 
         # If the point is set, return.
-        return unless @raster_map[y][x].nil?
+        return unless get_point(x, y).nil?
 
         # Set the empty queue as Array. Add initial coordinates to the queue.
         queue = [[x, y]]
@@ -72,11 +84,11 @@ module ConsoleDraw
           # Remove first element from queue.
           enc_x, enc_y = queue.shift
 
-          # Set a point with the color and dequeued coordinates on @raster_map
-          self << Point.new(enc_x, enc_y, color)
+          # Set a point with the color and dequeued coordinates
+          set_point Point.new(enc_x, enc_y, color)
 
           enqueue = proc do |new_x, new_y|
-            if valid_coordinates?(new_x, new_y) && @raster_map[new_y][new_x].nil?
+            if valid_coordinates?(new_x, new_y) && get_point(new_x, new_y).nil?
               queue.push [new_x, new_y] unless queue.include?([new_x, new_y])
             end
           end
@@ -97,25 +109,28 @@ module ConsoleDraw
         self
       end
 
-      protected
+      # Public: iterator over each line
+      # Return: Enumerator
+      def each_line
+        return enum_for(:each_line) unless block_given?
 
-      # Internal: Put point into @raster_map based on its coordinates
-      def <<(point)
-        @raster_map[point.y][point.x] = point
+        @points.each_slice(width) do |line|
+          yield line
+        end
       end
 
       private
 
-      # Internal: Validates coordinates values. Should be fine with @raster_map size.
+      # Internal: Validates coordinates values. Should be fine with size of the canvas.
       # Returns: Boolean
       def valid_coordinates?(x, y)
         x >= 0 && y >= 0 && y < height && x < width
       end
 
-      # Internal: build raster map as a 2-dimensional array
-      # Returns: Raster map
-      def initialize_raster
-        @raster_map = Array.new(height) { |_| Array.new(width) }
+      # Internal: build points with size of canvas
+      # Returns: Empty Array
+      def initialize_points
+        @points = Array.new(width * height)
       end
     end
   end

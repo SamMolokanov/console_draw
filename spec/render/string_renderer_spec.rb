@@ -1,35 +1,26 @@
 describe ConsoleDraw::Render::StringRenderer do
   describe '.render' do
-    subject { described_class.render(points_map) }
+    subject { described_class.render(canvas) }
+    let(:canvas) { ConsoleDraw::Canvas::Canvas.new(2, 2) }
 
-    context 'when empty map' do
-      let(:points_map) { [[]] }
-
-      it 'renders empty string in a frame' do
-        # --
-        # ||
-        # --
-        expect(subject).to eq "--\n||\n--"
-      end
-    end
-
-    context 'when map without points' do
-      let(:points_map) { [[nil], [nil]] }
-
+    context 'when canvas without points' do
       it 'renders spaces and new lines in a frame' do
-        # ---
-        # | |
-        # | |
-        # ---
-        expect(subject).to eq "---\n| |\n| |\n---"
+        # ----
+        # |  |
+        # |  |
+        # ----
+        expect(subject).to eq "----\n|  |\n|  |\n----"
       end
     end
 
-    context 'when map with points and holes' do
-      let(:fake_point_a) { double 'Point', color: 'a' }
-      let(:fake_point_b) { double 'Point', color: 'b' }
+    context 'when canvas with points and holes' do
+      let(:fake_point_a) { double 'Point', x: 1, y: 0, color: 'a' }
+      let(:fake_point_b) { double 'Point', x: 0, y: 1, color: 'b' }
 
-      let(:points_map) { [[nil, fake_point_a], [fake_point_b, nil]] }
+      before do
+        canvas.set_point fake_point_a
+        canvas.set_point fake_point_b
+      end
 
       it 'renders visible chars and spaces in a frame' do
         # ----

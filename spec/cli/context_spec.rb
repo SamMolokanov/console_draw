@@ -2,7 +2,7 @@ describe ConsoleDraw::CLI::Context do
   subject { described_class.new }
 
   let(:fake_canvas) do
-    double 'Canvas', clean!: :asd, draw: :foo, fill: :bar, raster_map: []
+    double 'Canvas', clean!: :asd, draw: :foo, fill: :bar, points: []
   end
 
   before do
@@ -13,7 +13,7 @@ describe ConsoleDraw::CLI::Context do
   end
 
   shared_examples_for 'renders canvas' do
-    it { expect(ConsoleDraw::Render::StringRenderer).to have_received(:render).with(fake_canvas.raster_map) }
+    it { expect(ConsoleDraw::Render::StringRenderer).to have_received(:render).with(fake_canvas) }
   end
 
   describe '#new_canvas' do

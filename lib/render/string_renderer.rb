@@ -7,22 +7,25 @@ module ConsoleDraw
         TRANSPARENT_CHAR = ' '.freeze
         DEFAULT_VISIBLE_CHAR = 'x'.freeze
 
-        # Public: Iterates over points on map and collect string output. Same as "Raster scan"
-        #   raster_map - 2-dimensional array with points
-        #
-        # Returns: String representation of raster_map with a frame
-        def render(raster_map)
-          return '' if raster_map.empty?
+        # Public: Renders canvas as string
+        # Returns: String
+        def render(canvas)
+          output = horizontal_line(canvas.width) + "\n"
 
-          horizontal_line = '-' * (raster_map[0].count + 2)
+          canvas.each_line do |line|
+            output += generate_line line
+          end
 
-          output = horizontal_line + "\n"
+          output += horizontal_line(canvas.width)
+          output
+        end
 
-          output += raster_map.map do |row|
-            "|#{row.map { |point| render_point(point) }.join}|"
-          end.join("\n")
+        def generate_line(points)
+          "|#{points.map { |point| render_point(point) }.join}|\n"
+        end
 
-          output + "\n" + horizontal_line
+        def horizontal_line(length)
+          '-' * (length + 2)
         end
 
         private
